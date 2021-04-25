@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<configuration xmlns="http://www.jooq.org/xsd/jooq-codegen-3.12.0.xsd">
+
+    <jdbc>
+        <driver>org.postgresql.Driver</driver>
+        <url>jdbc:postgresql://192.168.1.32:5433/dflc-logistics</url>
+        <user>admin</user>
+        <password>YEdG!x8yZ4sNK</password>
+    </jdbc>
+
+    <!-- Generator parameters -->
+    <generator>
+<!--        <name>io.github.jklingsporn.vertx.jooq.generate.rx.RXReactiveVertxGenerator</name>-->
+        <!-- use 'io.github.jklingsporn.vertx.jooq.generate.rx.RXReactiveGuiceVertxGenerator' to enable Guice DI -->
+        <database>
+            <name>org.jooq.meta.postgres.PostgresDatabase</name>
+            <includes>crm_.*</includes>
+            <!--            <includes>finance_.* | person.*</includes>-->
+            <!--            <excludes>
+              (?i:                      # Using case insensitive regex for the example
+                   database_prefix.*?\. # Match a catalog prefix prior to the qualifying "."
+                   .*?\.                # You don't seem to care about schema names, so match them all
+                   table_prefix.*?      # Match a table prefix at the end of the identifier
+                  )
+            </excludes>-->
+            <inputSchema>public</inputSchema>
+            <unsignedTypes>false</unsignedTypes>
+            <forcedTypes>
+                <!-- Convert tinyint to boolean -->
+                <forcedType>
+                    <name>BOOLEAN</name>
+                    <types>(?i:TINYINT)</types>
+                </forcedType>
+<!--                <forcedType>-->
+<!--                    <userType>io.vertx.core.json.JsonObject</userType>-->
+<!--                    <binding>io.github.jklingsporn.vertx.jooq.shared.postgres.JSONBToJsonObjectBinding</binding>-->
+<!--                    <expression>.*</expression>-->
+<!--                    <types>JSONB</types>-->
+<!--                </forcedType>-->
+            </forcedTypes>
+        </database>
+        <target>
+            <!-- This is where jOOQ will put your files -->
+            <packageName>com.dflc.service.demo.persistence.jooq</packageName>
+            <directory>src/main/generated</directory> <!-- YOUR_TARGET_DIRECTORY_HERE -->
+        </target>
+        <generate>
+            <daos>true</daos>
+            <records>true</records>
+            <routines>true</routines>
+            <interfaces>true</interfaces>
+            <fluentSetters>true</fluentSetters>
+            <springAnnotations>true</springAnnotations>
+        </generate>
+
+<!--        <strategy>-->
+<!--            <name>io.github.jklingsporn.vertx.jooq.generate.VertxGeneratorStrategy</name>-->
+<!--        </strategy>-->
+    </generator>
+</configuration>
