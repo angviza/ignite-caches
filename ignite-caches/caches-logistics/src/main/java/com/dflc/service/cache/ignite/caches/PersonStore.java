@@ -1,7 +1,8 @@
 package com.dflc.service.cache.ignite.caches;
 
+
 import com.dflc.service.cache.ignite.core.CachedStoreAdapter;
-import com.dflc.service.demo.persistence.jooq.tables.pojos.CrmUser;
+import com.dflc.service.cache.persistence.jooq.tables.pojos.CrmUser;
 
 import javax.sql.DataSource;
 import java.sql.PreparedStatement;

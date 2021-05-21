@@ -1,4 +1,4 @@
-package com.dflc.service.cache.ignite.caches;
+package org.quinn.test.ignite.exp;
 
 import org.apache.ignite.Ignite;
 import org.apache.ignite.IgniteCache;

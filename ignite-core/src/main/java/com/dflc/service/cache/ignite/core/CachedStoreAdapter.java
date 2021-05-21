@@ -19,11 +19,10 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.*;
 
-
 public abstract class CachedStoreAdapter<K, V> extends CacheStoreAdapter<K, V> {
     @SpringResource(resourceName = "dataSource")
     private DataSource dataSource;
-
+    public static DataSource ds;
     protected String TABLE_NAME;
     protected String TYPE_ID = "int8";
     protected String SQL_DEL = "DELETE FROM ";
@@ -35,9 +34,14 @@ public abstract class CachedStoreAdapter<K, V> extends CacheStoreAdapter<K, V> {
         SQL_DEL = SQL_DEL.concat(TABLE_NAME);
         SQL_QUERY = SQL_QUERY.concat(TABLE_NAME);
     }
-    public CachedStoreAdapter(DataSource dataSource){
+
+    public CachedStoreAdapter(DataSource dataSource) {
         this();
-        this.dataSource=dataSource;
+        this.dataSource = dataSource;
+    }
+
+    public static void config(DataSource dataSource) {
+        ds = dataSource;
     }
 
     protected abstract void init();
@@ -54,10 +58,20 @@ public abstract class CachedStoreAdapter<K, V> extends CacheStoreAdapter<K, V> {
 
     protected abstract CacheEntity fromRs(ResultSet rs) throws SQLException;
 
+    private Connection conn() throws SQLException {
+        if (dataSource == null) {
+            if (ds != null) {
+                dataSource = ds;
+            } else {
+                throw new IllegalStateException("datasource not init");
+            }
+        }
+        return dataSource.getConnection();
+    }
+
     @Override
     public void loadCache(IgniteBiInClosure<K, V> igniteBiInClosure, @Nullable Object... objects) throws CacheLoaderException {
-        try {
-            Connection conn = dataSource.getConnection();
+        try (Connection conn = conn()){
             PreparedStatement st = conn.prepareStatement(SQL_QUERY.concat(" limit 1000"));
             ResultSet rs = st.executeQuery();
             while (rs.next()) {
@@ -72,7 +86,7 @@ public abstract class CachedStoreAdapter<K, V> extends CacheStoreAdapter<K, V> {
 
     @Override
     public V load(K aLong) throws CacheLoaderException {
-        try (Connection conn = dataSource.getConnection()) {
+        try (Connection conn = conn()) {
             try (PreparedStatement st = conn.prepareStatement(SQL_QUERY.concat(" where id = ?"))) {
                 st.setLong(1, (Long) aLong);
                 ResultSet rs = st.executeQuery();
@@ -87,7 +101,7 @@ public abstract class CachedStoreAdapter<K, V> extends CacheStoreAdapter<K, V> {
     public Map<K, V> loadAll(Iterable<? extends K> keys) throws CacheLoaderException {
         List<K> ids = new ArrayList<>();
         keys.forEach(ids::add);
-        try (Connection conn = dataSource.getConnection()) {
+        try (Connection conn = conn()) {
             try (PreparedStatement st = conn.prepareStatement(SQL_QUERY.concat(" where id=ANY(?)"))) {
                 st.setArray(1, conn.createArrayOf(TYPE_ID, ids.toArray()));
                 ResultSet rs = st.executeQuery();
@@ -106,7 +120,7 @@ public abstract class CachedStoreAdapter<K, V> extends CacheStoreAdapter<K, V> {
 
     @Override
     public void write(Cache.Entry<? extends K, ? extends V> entry) throws CacheWriterException {
-        try (Connection conn = dataSource.getConnection()) {
+        try (Connection conn = conn()) {
             PreparedStatement st = conn.prepareStatement(SQL_WRITE);
             stmt(st, entry.getValue());
             int i = st.executeUpdate();
@@ -118,7 +132,7 @@ public abstract class CachedStoreAdapter<K, V> extends CacheStoreAdapter<K, V> {
 
     @Override
     public void writeAll(Collection<Cache.Entry<? extends K, ? extends V>> collection) throws CacheWriterException {
-        try (Connection conn = dataSource.getConnection()) {
+        try (Connection conn = conn()) {
             PreparedStatement st = conn.prepareStatement(SQL_WRITE);
             for (Cache.Entry<? extends K, ? extends V> entry : collection) {
                 stmt(st, entry.getValue());
@@ -132,7 +146,7 @@ public abstract class CachedStoreAdapter<K, V> extends CacheStoreAdapter<K, V> {
 
     @Override
     public void delete(Object o) throws CacheWriterException {
-        try (Connection conn = dataSource.getConnection()) {
+        try (Connection conn = conn()) {
             PreparedStatement st = conn.prepareStatement(SQL_DEL.concat(" WHERE id=?"));
             st.setLong(1, (Long) o);
             st.execute();
@@ -144,7 +158,7 @@ public abstract class CachedStoreAdapter<K, V> extends CacheStoreAdapter<K, V> {
 
     @Override
     public void deleteAll(Collection<?> collection) throws CacheWriterException {
-        try (Connection conn = dataSource.getConnection()) {
+        try (Connection conn = conn()) {
             PreparedStatement st = conn.prepareStatement(SQL_DEL.concat(" WHERE id=ANY(?)"));
             st.setArray(1, conn.createArrayOf(TYPE_ID, collection.toArray()));
             st.execute();

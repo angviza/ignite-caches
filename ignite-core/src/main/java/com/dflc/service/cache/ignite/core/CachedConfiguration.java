@@ -32,7 +32,7 @@ public class CachedConfiguration<K, V> extends CacheConfiguration<K, V> {
     protected int writeBehindFlushFrequency = 5;
     protected CacheWriteSynchronizationMode writeSynchronizationMode = FULL_SYNC;
     protected String sqlSchema = "PUBLIC";
-
+    public CachedConfiguration() {}
     public CachedConfiguration(Class key, Class clazz, Class store) {
         setName(clazz.getSimpleName());
         setCacheMode(cacheMode);
