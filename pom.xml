@@ -2,76 +2,26 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <artifactId>legomd-cache</artifactId>
+        <groupId>org.legomd.cache</groupId>
+        <version>1.0-SNAPSHOT</version>
+    </parent>
     <modelVersion>4.0.0</modelVersion>
-
     <groupId>com.dflc.ignite</groupId>
-    <artifactId>logistics</artifactId>
+    <artifactId>ignite-caches</artifactId>
     <packaging>pom</packaging>
-    <version>1.0-SNAPSHOT</version>
     <modules>
-        <module>ignite-core</module>
-        <module>ignite-caches</module>
+        <module>caches-intelligent</module>
     </modules>
 
-    <properties>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-        <java.version>1.8</java.version>
-        <maven-compiler-plugin.version>3.8.1</maven-compiler-plugin.version>
-        <maven-shade-plugin.version>3.2.4</maven-shade-plugin.version>
-        <maven-surefire-plugin.version>3.0.0-M3</maven-surefire-plugin.version>
-
-        <deploy.skip>false</deploy.skip>
-        <maven.javadoc.skip>true</maven.javadoc.skip>
-        <maven.test.skip>true</maven.test.skip>
-
-        <log4j.version>2.14.1</log4j.version>
-        <slf4j-log4j12.version>1.7.30</slf4j-log4j12.version>
-
-        <jooq.version>3.14.8</jooq.version>
-        <main.class/>
-        <postgresql.version>42.2.19</postgresql.version>
-        <ignite.version>2.10.0</ignite.version>
-        <h2.version>1.4.197</h2.version>
-    </properties>
-
     <dependencies>
-
         <dependency>
-            <groupId>org.apache.ignite</groupId>
-            <artifactId>ignite-core</artifactId>
-            <version>${ignite.version}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>org.apache.ignite</groupId>
-            <artifactId>ignite-spring</artifactId>
-            <version>${ignite.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.postgresql</groupId>
-            <artifactId>postgresql</artifactId>
-            <version>${postgresql.version}</version>
-        </dependency>
-
-
-        <dependency>
-            <groupId>org.projectlombok</groupId>
-            <artifactId>lombok</artifactId>
-            <version>1.18.20</version>
-            <scope>provided</scope>
+            <groupId>org.legomd.cache</groupId>
+            <artifactId>cache-ignite</artifactId>
+            <version>1.0-SNAPSHOT</version>
         </dependency>
     </dependencies>
-
-    <dependencyManagement>
-        <dependencies>
-            <dependency>
-                <groupId>com.h2database</groupId>
-                <artifactId>h2</artifactId>
-                <version>${h2.version}</version>
-            </dependency>
-        </dependencies>
-    </dependencyManagement>
 
     <build>
         <!--        <sourceDirectory>${project.basedir}/src/main/java</sourceDirectory>-->
@@ -82,7 +32,7 @@
                     <artifactId>maven-compiler-plugin</artifactId>
                     <version>${maven-compiler-plugin.version}</version>
                     <configuration>
-<!--                        <release>${java.version}</release>-->
+                        <!--                        <release>${java.version}</release>-->
                         <source>${java.version}</source>
                         <target>${java.version}</target>
                         <encoding>${project.build.sourceEncoding}</encoding>
@@ -286,6 +236,4 @@
             </plugin>
         </plugins>
     </build>
-
-
 </project>
