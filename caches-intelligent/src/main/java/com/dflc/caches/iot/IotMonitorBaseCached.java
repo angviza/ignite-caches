@@ -6,7 +6,7 @@ import org.legomd.cache.ignite.core.CachedConfiguration;
 import org.springframework.context.annotation.Configuration;
 
 /**
- * 缓存工厂1
+ * 缓存工厂
  */
 @Configuration
 public class IotMonitorBaseCached extends CachedConfiguration<Long, IotMonitorBase> {
