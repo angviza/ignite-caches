@@ -14,7 +14,7 @@
         <!-- use 'io.github.jklingsporn.vertx.jooq.generate.rx.RXReactiveGuiceVertxGenerator' to enable Guice DI -->
         <database>
             <name>org.jooq.meta.postgres.PostgresDatabase</name>
-            <includes>crm_.*</includes>
+            <includes>iot_.*</includes>
             <!--            <includes>finance_.* | person.*</includes>-->
             <!--            <excludes>
               (?i:                      # Using case insensitive regex for the example

@@ -1,4 +1,4 @@
-package com.dflc.service.cache.ignite.caches;
+package com.dflc.caches.iot;
 
 import com.dflc.service.cache.ignite.core.CachedConfiguration;
 import com.dflc.service.cache.persistence.jooq.tables.pojos.CrmUser;
