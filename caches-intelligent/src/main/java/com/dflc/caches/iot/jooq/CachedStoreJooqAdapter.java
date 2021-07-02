@@ -1,4 +1,4 @@
-package com.dflc.caches.test;
+package com.dflc.caches.iot.jooq;
 
 import com.dflc.service.cache.persistence.jooq.tables.daos.IotMonitorBaseDao;
 import com.dflc.service.cache.persistence.jooq.tables.pojos.IotMonitorBase;

@@ -1,6 +1,6 @@
 package org.quinn.test.jooq;
 
-import com.dflc.caches.test.IotMonitorBaseCachedJooq;
+import com.dflc.caches.iot.jooq.IotMonitorBaseCachedJooq;
 import org.apache.ignite.Ignite;
 import org.apache.ignite.IgniteCache;
 import org.apache.ignite.Ignition;
