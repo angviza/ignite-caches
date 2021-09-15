@@ -1,4 +1,4 @@
-//package com.dflc.caches.iot;
+//package com.dflc.caches.iot.jdbc;
 //
 //
 //import com.dflc.service.cache.persistence.jooq.tables.pojos.IotMonitorBase;
@@ -12,13 +12,15 @@
 // * 缓存工厂
 // */
 //
-//public class IotMonitorBaseCachedStore extends CachedStoreJdbcAdapter<Long, IotMonitorBase> {
+//public class IotMonitorBaseCachedStore extends CachedStoreJdbcAdapter<String, IotMonitorBase> {
 //
 //    @Override
 //    public void init() {
 //        TABLE_NAME = "iot_monitor_base";
-////        KEY = "name";
-//        COLUMNS = new String[]{"id", "name", "model"};
+//        KEY = "seq";
+//        TYPE_ID = "varchar";
+//        COLUMNS = new String[]{"id", "name", "model","seq","id_","org_id"};
+//        SQL_DEL = "";
 //    }
 //
 //    @Override
@@ -29,6 +31,9 @@
 //        st.setLong(1, p.getId());
 //        st.setString(2, p.getName());
 //        st.setString(3, p.getModel());
+//        st.setString(4, p.getSeq());
+//        st.setLong(5, p.getId_());
+//        st.setLong(6, p.getOrgId());
 //    }
 //
 //    @Override
@@ -37,7 +42,10 @@
 //        iot.setId(rs.getLong(1));
 //        iot.setName(rs.getString(2));
 //        iot.setModel(rs.getString(3));
-//        return new CacheEntity(iot.getId(), iot);
+//        iot.setSeq(rs.getString(4));
+//        iot.setId_(rs.getLong(5));
+//        iot.setOrgId(rs.getLong(6));
+//        return new CacheEntity(iot.getSeq(), iot);
 //    }
 //
 //}

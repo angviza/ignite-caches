@@ -1,4 +1,4 @@
-//package com.dflc.caches.iot;
+//package com.dflc.caches.iot.jdbc;
 //
 //
 //import com.dflc.service.cache.persistence.jooq.tables.pojos.IotMonitorBase;
@@ -9,10 +9,10 @@
 // * 缓存工厂
 // */
 //@Configuration
-//public class IotMonitorBaseCached extends CachedConfiguration<Long, IotMonitorBase> {
+//public class IotMonitorBaseCached extends CachedConfiguration<String, IotMonitorBase> {
 //
 //    public IotMonitorBaseCached() {
-//        this(Long.class, IotMonitorBase.class, IotMonitorBaseCachedStore.class);
+//        this(String.class, IotMonitorBase.class, IotMonitorBaseCachedStore.class);
 //    }
 //
 //    public IotMonitorBaseCached(Class key, Class clazz, Class store) {

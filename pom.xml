@@ -12,6 +12,7 @@
     <artifactId>ignite-caches</artifactId>
     <packaging>pom</packaging>
     <modules>
+        <module>caches-example</module>
         <module>caches-intelligent</module>
     </modules>
 
