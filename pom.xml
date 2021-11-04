@@ -22,6 +22,12 @@
             <artifactId>cache-ignite</artifactId>
             <version>1.0-SNAPSHOT</version>
         </dependency>
+
+        <dependency>
+            <groupId>org.legomd.framework</groupId>
+            <artifactId>legomd-web</artifactId>
+            <version>2.0-SNAPSHOT</version>
+        </dependency>
     </dependencies>
 
     <build>

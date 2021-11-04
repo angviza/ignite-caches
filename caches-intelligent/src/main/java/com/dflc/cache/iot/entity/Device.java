@@ -1,16 +1,8 @@
 package com.dflc.cache.iot.entity;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
-import org.apache.commons.collections4.ListUtils;
 import org.legomd.cache.core.Cachedable;
-import org.legomd.util.json.JsonUtil;
-
-import java.io.Serializable;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.Date;
-import java.util.List;
 
 @Data
 public class Device extends Cachedable {

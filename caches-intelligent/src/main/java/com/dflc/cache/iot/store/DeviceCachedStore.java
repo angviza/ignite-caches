@@ -19,7 +19,7 @@ public class DeviceCachedStore extends CachedStoreJdbcAdapter<String, Device> {
         TABLE_NAME = "iot_monitor_base";
         KEY = "seq";
         TYPE_KEY = "varchar";
-        COLUMNS = new String[]{"seq","id", "name", "code","id_","org_id","org_seq_id"};
+        COLUMNS = new String[]{"seq","id", "name", "code","id_","org_id","org_seq_id","state"};
         SQL_DEL = "UPDATE %s SET status = -1 ";
     }
 
@@ -34,7 +34,8 @@ public class DeviceCachedStore extends CachedStoreJdbcAdapter<String, Device> {
         st.setString(4, p.getCode());
         st.setLong(5, p.getId_());
         st.setLong(6, p.getOrgId());
-        st.setLong(7, p.getOrgSeqId());
+        st.setInt(7, p.getOrgSeqId());
+        st.setInt(8,p.getState());
     }
 
     @Override
@@ -47,6 +48,7 @@ public class DeviceCachedStore extends CachedStoreJdbcAdapter<String, Device> {
         iot.setId_(rs.getLong(5));
         iot.setOrgId(rs.getLong(6));
         iot.setOrgSeqId(rs.getInt(7));
+        iot.setState(rs.getInt(8));
         return new CacheEntity(iot.getSeq(), iot);
     }
 
