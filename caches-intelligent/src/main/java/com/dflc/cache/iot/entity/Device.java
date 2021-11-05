@@ -9,7 +9,7 @@ public class Device extends Cachedable {
 
     protected Long id;
 
-    protected Long id_;
+    protected Integer id_;
 
     protected String name;
 

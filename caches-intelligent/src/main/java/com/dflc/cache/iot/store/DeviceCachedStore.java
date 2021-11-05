@@ -32,7 +32,7 @@ public class DeviceCachedStore extends CachedStoreJdbcAdapter<String, Device> {
         st.setLong(2, p.getId());
         st.setString(3, p.getName());
         st.setString(4, p.getCode());
-        st.setLong(5, p.getId_());
+        st.setInt(5, p.getId_());
         st.setLong(6, p.getOrgId());
         st.setInt(7, p.getOrgSeqId());
         st.setInt(8,p.getState());
@@ -45,7 +45,7 @@ public class DeviceCachedStore extends CachedStoreJdbcAdapter<String, Device> {
         iot.setId(rs.getLong(2));
         iot.setName(rs.getString(3));
         iot.setCode(rs.getString(4));
-        iot.setId_(rs.getLong(5));
+        iot.setId_(rs.getInt(5));
         iot.setOrgId(rs.getLong(6));
         iot.setOrgSeqId(rs.getInt(7));
         iot.setState(rs.getInt(8));
