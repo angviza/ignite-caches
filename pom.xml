@@ -140,30 +140,30 @@
                     </configuration>
                 </plugin>
 
-                <plugin>
-                    <groupId>org.jooq</groupId>
-                    <artifactId>jooq-codegen-maven</artifactId>
-                    <version>${jooq.version}</version>
-                    <executions>
-                        <execution>
-                            <id>jooq-generate</id>
-                            <phase>generate-sources</phase>
-                            <goals>
-                                <goal>generate</goal>
-                            </goals>
-                        </execution>
-                    </executions>
-                    <dependencies>
-                        <dependency>
-                            <groupId>org.postgresql</groupId>
-                            <artifactId>postgresql</artifactId>
-                            <version>${postgresql.version}</version>
-                        </dependency>
-                    </dependencies>
-                    <configuration>
-                        <configurationFile>src/main/resources/rxJooqConfig.xml</configurationFile>
-                    </configuration>
-                </plugin>
+<!--                <plugin>-->
+<!--                    <groupId>org.jooq</groupId>-->
+<!--                    <artifactId>jooq-codegen-maven</artifactId>-->
+<!--                    <version>${jooq.version}</version>-->
+<!--                    <executions>-->
+<!--                        <execution>-->
+<!--                            <id>jooq-generate</id>-->
+<!--                            <phase>generate-sources</phase>-->
+<!--                            <goals>-->
+<!--                                <goal>generate</goal>-->
+<!--                            </goals>-->
+<!--                        </execution>-->
+<!--                    </executions>-->
+<!--                    <dependencies>-->
+<!--                        <dependency>-->
+<!--                            <groupId>org.postgresql</groupId>-->
+<!--                            <artifactId>postgresql</artifactId>-->
+<!--                            <version>${postgresql.version}</version>-->
+<!--                        </dependency>-->
+<!--                    </dependencies>-->
+<!--                    <configuration>-->
+<!--                        <configurationFile>src/main/resources/rxJooqConfig.xml</configurationFile>-->
+<!--                    </configuration>-->
+<!--                </plugin>-->
 
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>

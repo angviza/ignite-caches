@@ -1,7 +1,7 @@
 package com.dflc.cache.iot.store;
 
 
-import com.dflc.cache.iot.entity.Device;
+import com.dflc.cache.iot.entity.DeviceCache;
 import org.legomd.cache.ignite.core.CachedStoreJdbcAdapter;
 
 import java.sql.PreparedStatement;
@@ -12,7 +12,7 @@ import java.sql.SQLException;
  * 缓存工厂
  */
 
-public class DeviceCachedStore extends CachedStoreJdbcAdapter<String, Device> {
+public class DeviceCachedStore extends CachedStoreJdbcAdapter<String, DeviceCache> {
 
     @Override
     public void init() {
@@ -24,7 +24,7 @@ public class DeviceCachedStore extends CachedStoreJdbcAdapter<String, Device> {
     }
 
     @Override
-    protected void stmt(PreparedStatement st, Device p) throws SQLException {
+    protected void stmt(PreparedStatement st, DeviceCache p) throws SQLException {
         if (p.getId() <= 0) {
             throw new SQLException("id not init");
         }
@@ -40,7 +40,7 @@ public class DeviceCachedStore extends CachedStoreJdbcAdapter<String, Device> {
 
     @Override
     protected CacheEntity fromRs(ResultSet rs) throws SQLException {
-        Device iot = new Device();
+        DeviceCache iot = new DeviceCache();
         iot.setSeq(rs.getString(1));
         iot.setId(rs.getLong(2));
         iot.setName(rs.getString(3));

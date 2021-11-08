@@ -1,26 +1,24 @@
 package com.dflc.cache.iot;
 
-import com.dflc.cache.iot.entity.Device;
+import com.dflc.cache.iot.entity.DeviceCache;
 import org.apache.ignite.cache.query.FieldsQueryCursor;
 import org.apache.ignite.cache.query.SqlFieldsQuery;
 import org.legomd.cache.ignite.IgniteCacheBind;
-import org.springframework.beans.BeanUtils;
 
-import java.util.Arrays;
 import java.util.List;
 
-public class DeviceCache extends IgniteCacheBind<Device> {
+public class DeviceCacher extends IgniteCacheBind<DeviceCache> {
 
-    private static DeviceCache dm =null;
+    private static DeviceCacher dm =null;
 
-    private DeviceCache() {
+    private DeviceCacher() {
         shared();
-        setType(Device.class);
+        setType(DeviceCache.class);
     }
 
-    public static DeviceCache getDeviceCache() {
+    public static DeviceCacher getDeviceCache() {
         if (dm == null) {
-            dm = new DeviceCache();
+            dm = new DeviceCacher();
         }
         return dm;
     }
@@ -32,7 +30,7 @@ public class DeviceCache extends IgniteCacheBind<Device> {
         return cache().query(sql);
     }
 
-    public Device getDevice(String seq) {
+    public DeviceCache getDevice(String seq) {
         return dm.get(seq);
     }
 
@@ -40,7 +38,7 @@ public class DeviceCache extends IgniteCacheBind<Device> {
         return dm.del(seq);
     }
 
-    public Device saveDevice(Device device){
+    public DeviceCache saveDevice(DeviceCache device){
         set(device);
         return dm.get(device.getSeq());
     }

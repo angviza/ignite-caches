@@ -5,7 +5,7 @@ import org.legomd.cache.core.Cachedable;
 import java.util.Date;
 
 @Data
-public class Device extends Cachedable {
+public class DeviceCache extends Cachedable {
 
     protected Long id;
 
