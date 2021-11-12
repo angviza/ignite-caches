@@ -25,7 +25,7 @@ public class DeviceCache extends Cachedable {
 
     private String describe;
 
-    private Integer type;
+    private Integer typeId;
 
     private Integer orgSeqId;
 
@@ -61,7 +61,7 @@ public class DeviceCache extends Cachedable {
 
         this.describe = null;
 
-        this.type = null;
+        this.typeId = null;
 
         this.orgSeqId = null;
 
