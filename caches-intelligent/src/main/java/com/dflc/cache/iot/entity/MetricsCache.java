@@ -1,6 +1,5 @@
 package com.dflc.cache.iot.entity;
 
-import com.dflc.iot.model.avro.metrics.Metrics;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -36,9 +35,5 @@ public class MetricsCache extends Cachedable {
         this.v = v;
         this.tol = tol;
         return this;
-    }
-
-    public Metrics toAvro() {
-        return new Metrics(t, d, ty, v, tol, o);
     }
 }
