@@ -3,11 +3,13 @@ package com.dflc.cache.iot.entity;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.experimental.Accessors;
 import org.legomd.cache.core.Cachedable;
 
 import java.time.Instant;
 
 @Data
+@Accessors(chain = true)
 @NoArgsConstructor
 @AllArgsConstructor
 public class MetricsCache extends Cachedable {
@@ -24,6 +26,8 @@ public class MetricsCache extends Cachedable {
     private double tol;
     // org id
     private int o;
+    // status
+    private int status;
 
     @Override
     public String cacheKey() {
@@ -36,4 +40,5 @@ public class MetricsCache extends Cachedable {
         this.tol = tol;
         return this;
     }
+
 }

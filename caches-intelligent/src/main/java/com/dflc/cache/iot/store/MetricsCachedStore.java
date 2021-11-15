@@ -22,7 +22,7 @@ public class MetricsCachedStore extends CachedStoreJdbcAdapter<String, MetricsCa
         TABLE_NAME = "iot_monitor_metrics";
         KEY = "seq";
         TYPE_KEY = "varchar";
-        COLUMNS = new String[]{"seq","t", "d", "ty", "v", "tol", "o"};
+        COLUMNS = new String[]{"seq","t", "d", "ty", "v", "tol", "o" ,"status"};
         SQL_DEL = "UPDATE %s SET status = -1 ";
     }
 
@@ -36,6 +36,7 @@ public class MetricsCachedStore extends CachedStoreJdbcAdapter<String, MetricsCa
         st.setDouble(i++, p.getV());
         st.setDouble(i++, p.getTol());
         st.setInt(i++, p.getO());
+        st.setInt(i++, p.getStatus());
     }
 
     @Override
@@ -49,6 +50,7 @@ public class MetricsCachedStore extends CachedStoreJdbcAdapter<String, MetricsCa
         mc.setV(rs.getDouble(i++));
         mc.setTol(rs.getDouble(i++));
         mc.setO(rs.getInt(i++));
+        mc.setStatus(rs.getInt(i++));
         return new CacheEntity(mc.getSeq(), mc);
     }
 

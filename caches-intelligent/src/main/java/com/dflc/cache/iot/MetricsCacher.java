@@ -35,7 +35,7 @@ public class MetricsCacher extends IgniteCacheBind<MetricsCache> {
 //        return super.set(value);
 //    }
 
-    public  MetricsCache saveMetrics(MetricsCache value) {
+    public MetricsCache saveMetrics(MetricsCache value) {
         metricsLocalCache.put(value.getSeq(), value);
         set(value);
         return value;
@@ -51,7 +51,7 @@ public class MetricsCacher extends IgniteCacheBind<MetricsCache> {
         String seq = key.toString();
         DeviceCache device = deviceCacher.getDevice(seq);
         if (device != null) {
-            return new MetricsCache(seq, null, device.getId_(), device.getTypeId(), 0, 0, device.getOrgSeqId());
+            return new MetricsCache(seq, null, device.getId_(), device.getTypeId(), 0, 0, device.getOrgSeqId(), 0);
         }
         return null;
     }
