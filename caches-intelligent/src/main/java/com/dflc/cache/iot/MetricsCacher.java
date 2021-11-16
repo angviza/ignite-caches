@@ -35,8 +35,11 @@ public class MetricsCacher extends IgniteCacheBind<MetricsCache> {
 //        return super.set(value);
 //    }
 
+    public MetricsCache saveLocal(MetricsCache value) {
+        return metricsLocalCache.put(value.getSeq(), value);
+    }
     public MetricsCache saveMetrics(MetricsCache value) {
-        metricsLocalCache.put(value.getSeq(), value);
+        saveLocal(value);
         set(value);
         return value;
     }
