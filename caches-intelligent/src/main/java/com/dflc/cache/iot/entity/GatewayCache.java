@@ -23,7 +23,9 @@ public class GatewayCache extends Cachedable {
 
     private String seq;
 
-    private Date onlineTime;
+    private Date upTime;
+
+    private Date downTime;
 
     private String username;
 

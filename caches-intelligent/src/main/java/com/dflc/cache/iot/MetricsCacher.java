@@ -4,6 +4,7 @@ import com.dflc.cache.iot.entity.DeviceCache;
 import com.dflc.cache.iot.entity.MetricsCache;
 import org.legomd.cache.ignite.IgniteCacheBind;
 
+import java.sql.Timestamp;
 import java.util.concurrent.ConcurrentHashMap;
 
 public class MetricsCacher extends IgniteCacheBind<MetricsCache> {
@@ -54,8 +55,9 @@ public class MetricsCacher extends IgniteCacheBind<MetricsCache> {
         String seq = key.toString();
         DeviceCache device = deviceCacher.getDevice(seq);
         if (device != null) {
-            return new MetricsCache(seq, null, device.getId_(), device.getTypeId(), 0, 0, device.getOrgSeqId(), 0);
+            return new MetricsCache(seq, null,null,null, device.getId_(), device.getTypeId(), 0, 0, device.getOrgSeqId(), 0);
         }
         return null;
     }
+
 }

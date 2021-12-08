@@ -8,8 +8,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
-import java.time.LocalDateTime;
-import java.time.ZoneId;
 
 /**
  * 缓存工厂
@@ -22,7 +20,7 @@ public class MetricsCachedStore extends CachedStoreJdbcAdapter<String, MetricsCa
         TABLE_NAME = "iot_monitor_metrics";
         KEY = "seq";
         TYPE_KEY = "varchar";
-        COLUMNS = new String[]{"seq","t", "d", "ty", "v", "tol", "o" ,"status"};
+        COLUMNS = new String[]{"seq", "t", "d", "ty", "v", "tol", "o", "status", "up", "down"};
         SQL_DEL = "UPDATE %s SET status = -1 ";
     }
 
@@ -30,17 +28,21 @@ public class MetricsCachedStore extends CachedStoreJdbcAdapter<String, MetricsCa
     protected void stmt(PreparedStatement st, MetricsCache p) throws SQLException {
         int i = 1;
         st.setString(i++, p.getSeq());
-        st.setTimestamp(i++, Timestamp.valueOf(LocalDateTime.ofInstant(p.getT(), ZoneId.of("Asia/Shanghai"))));
+//        st.setTimestamp(i++, Timestamp.valueOf(LocalDateTime.ofInstant(p.getT(), ZoneId.of("Asia/Shanghai"))));
+        st.setTimestamp(i++, p.getT() == null ? null : Timestamp.from(p.getT()));
         st.setInt(i++, p.getD());
         st.setInt(i++, p.getTy());
         st.setDouble(i++, p.getV());
         st.setDouble(i++, p.getTol());
         st.setInt(i++, p.getO());
         st.setInt(i++, p.getStatus());
+
+        st.setTimestamp(i++, p.getUp() == null ? null : Timestamp.from(p.getUp()));
+        st.setTimestamp(i, p.getDown() == null ? null : Timestamp.from(p.getDown()));
     }
 
     @Override
-    protected CacheEntity fromRs(ResultSet rs) throws SQLException {
+    protected CacheEntity<String, MetricsCache> fromRs(ResultSet rs) throws SQLException {
         MetricsCache mc = new MetricsCache();
         int i = 1;
         mc.setSeq(rs.getString(i++));
@@ -51,8 +53,13 @@ public class MetricsCachedStore extends CachedStoreJdbcAdapter<String, MetricsCa
         mc.setTol(rs.getDouble(i++));
         mc.setO(rs.getInt(i++));
         mc.setStatus(rs.getInt(i++));
-        return new CacheEntity(mc.getSeq(), mc);
+        var up = rs.getTimestamp(i++);
+        if (up != null)
+            mc.setUp(up.toInstant());
+        var down = rs.getTimestamp(i++);
+        if (down != null)
+            mc.setDown(down.toInstant());
+        return new CacheEntity<String, MetricsCache>(mc.getSeq(), mc);
     }
-
 }
 

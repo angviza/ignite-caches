@@ -15,6 +15,8 @@ import java.time.Instant;
 public class MetricsCache extends Cachedable {
     private String seq;
     private Instant t;
+    private Instant up;
+    private Instant down;
 
     // device id
     private int d;
