@@ -31,6 +31,12 @@ public class MetricsCache extends Cachedable {
     // status
     private int status;
 
+    //当前预警值
+    private double wv;
+
+    //当前预警次数
+    private int wc;
+
     @Override
     public String cacheKey() {
         return seq;

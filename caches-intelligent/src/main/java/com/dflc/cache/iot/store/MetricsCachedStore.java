@@ -20,7 +20,7 @@ public class MetricsCachedStore extends CachedStoreJdbcAdapter<String, MetricsCa
         TABLE_NAME = "iot_monitor_metrics";
         KEY = "seq";
         TYPE_KEY = "varchar";
-        COLUMNS = new String[]{"seq", "t", "d", "ty", "v", "tol", "o", "status", "up", "down"};
+        COLUMNS = new String[]{"seq", "t", "d", "ty", "v", "tol", "o", "status", "up", "down","wv","wc"};
         SQL_DEL = "UPDATE %s SET status = -1 ";
     }
 
@@ -38,7 +38,9 @@ public class MetricsCachedStore extends CachedStoreJdbcAdapter<String, MetricsCa
         st.setInt(i++, p.getStatus());
 
         st.setTimestamp(i++, p.getUp() == null ? null : Timestamp.from(p.getUp()));
-        st.setTimestamp(i, p.getDown() == null ? null : Timestamp.from(p.getDown()));
+        st.setTimestamp(i++, p.getDown() == null ? null : Timestamp.from(p.getDown()));
+        st.setDouble(i++,p.getWv());
+        st.setInt(i++,p.getWc());
     }
 
     @Override
@@ -59,6 +61,9 @@ public class MetricsCachedStore extends CachedStoreJdbcAdapter<String, MetricsCa
         var down = rs.getTimestamp(i++);
         if (down != null)
             mc.setDown(down.toInstant());
+
+        mc.setWv(rs.getDouble(i++));
+        mc.setWc(rs.getInt(i++));
         return new CacheEntity<String, MetricsCache>(mc.getSeq(), mc);
     }
 }

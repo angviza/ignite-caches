@@ -55,7 +55,7 @@ public class MetricsCacher extends IgniteCacheBind<MetricsCache> {
         String seq = key.toString();
         DeviceCache device = deviceCacher.getDevice(seq);
         if (device != null) {
-            return new MetricsCache(seq, null,null,null, device.getId_(), device.getTypeId(), 0, 0, device.getOrgSeqId(), 0);
+            return new MetricsCache(seq, null,null,null, device.getId_(), device.getTypeId(), 0, 0, device.getOrgSeqId(), 0,0,0);
         }
         return null;
     }
