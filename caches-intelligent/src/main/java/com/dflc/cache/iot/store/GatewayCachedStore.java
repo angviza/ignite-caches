@@ -7,6 +7,9 @@ import org.legomd.cache.ignite.core.CachedStoreJdbcAdapter;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 
 /**
  * 缓存工厂
@@ -16,28 +19,21 @@ public class GatewayCachedStore extends CachedStoreJdbcAdapter<String, GatewayCa
 
     @Override
     public void init() {
-        TABLE_NAME = "iot_monitor_gateway";
+        TABLE_NAME = "iot_monitor_gateway_state";
         KEY = "seq";
         TYPE_KEY = "varchar";
-        COLUMNS = new String[]{"seq","id", "name", "code","username","password","state"};
+        COLUMNS = new String[]{"seq", "st", "et", "status", "o"};
         SQL_DEL = "UPDATE %s SET status = -1 ";
     }
 
     @Override
     protected void stmt(PreparedStatement st, GatewayCache p) throws SQLException {
-        if (p.getId() <= 0) {
-            throw new SQLException("id not init");
-        }
-
         int i = 1;
         st.setString(i++, p.getSeq());
-        st.setLong(i++, p.getId());
-        st.setString(i++, p.getName());
-        st.setString(i++, p.getCode());
-        st.setString(i++, p.getUsername());
-        st.setString(i++, p.getPassword());
-        st.setInt(i++,p.getState());
-
+        st.setTimestamp(i++, Timestamp.valueOf(LocalDateTime.ofInstant(p.getUpTime().toInstant(), ZoneId.of("Asia/Shanghai"))));
+        st.setTimestamp(i++, Timestamp.valueOf(LocalDateTime.ofInstant(p.getDownTime().toInstant(), ZoneId.of("Asia/Shanghai"))));
+        st.setInt(i++, p.getState());
+        //st.setInt(i++, p.getO());
     }
 
     @Override
@@ -45,12 +41,10 @@ public class GatewayCachedStore extends CachedStoreJdbcAdapter<String, GatewayCa
         GatewayCache gt = new GatewayCache();
         int i = 1;
         gt.setSeq(rs.getString(i++));
-        gt.setId(rs.getLong(i++));
-        gt.setName(rs.getString(i++));
-        gt.setCode(rs.getString(i++));
-        gt.setUsername(rs.getString(i++));
-        gt.setPassword(rs.getString(i++));
+        gt.setUpTime(rs.getTimestamp(i++));
+        gt.setDownTime(rs.getTimestamp(i++));
         gt.setState(rs.getInt(i++));
+        //gt.setO(rs.getInt(i++));
         return new CacheEntity(gt.getSeq(), gt);
     }
 
