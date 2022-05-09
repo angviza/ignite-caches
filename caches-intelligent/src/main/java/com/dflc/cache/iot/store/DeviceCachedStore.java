@@ -37,7 +37,7 @@ public class DeviceCachedStore extends CachedStoreJdbcAdapter<String, DeviceCach
         st.setLong(i++, p.getOrgId());
         st.setInt(i++, p.getOrgSeqId());
         st.setInt(i++, p.getState());
-        st.setInt(i++, p.getIndexId());
+        st.setInt(i++, p.getTypeId());
     }
 
     @Override
@@ -52,7 +52,7 @@ public class DeviceCachedStore extends CachedStoreJdbcAdapter<String, DeviceCach
         iot.setOrgId(rs.getLong(i++));
         iot.setOrgSeqId(rs.getInt(i++));
         iot.setState(rs.getInt(i++));
-        iot.setIndexId(rs.getInt(i++));
+        iot.setTypeId(rs.getInt(i++));
         return new CacheEntity(iot.getSeq(), iot);
     }
 

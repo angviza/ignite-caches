@@ -12,7 +12,7 @@ public class MetricsCacher extends IgniteCacheBind<MetricsCache> {
 
     private static MetricsCacher ins;
     DeviceCacher deviceCacher;
-    IndexCacher indexCacher;
+    //IndexCacher indexCacher;
 
     private final ConcurrentHashMap<String, MetricsCache> metricsLocalCache = new ConcurrentHashMap<>();
 
@@ -55,28 +55,35 @@ public class MetricsCacher extends IgniteCacheBind<MetricsCache> {
 
     @Override
     public MetricsCache getFrom(Object key) {
-        String seq_metrics = key.toString();
-        String seq = seq_metrics;
-        String indexCode = null;
-
-        if (seq_metrics.contains("-")) {
-            int _i = seq_metrics.lastIndexOf("-");
-            seq = seq_metrics.substring(0, _i);
-            indexCode = seq_metrics.substring(_i + 1);
-        }
-
+        String seq = key.toString();
         DeviceCache device = deviceCacher.getDevice(seq);
-
-        IndexCache  index = indexCode==null?null:indexCacher.getIndex(indexCode);
-
         if (device != null) {
-            MetricsCache metricsCache = new MetricsCache(seq, null, null, null, device.getId_(), device.getIndexId(), 0, 0, device.getOrgSeqId(), 0, 0, 0);
-            if (index != null) {
-                metricsCache.setTy(Integer.valueOf(index.getId().toString()));
-            }
-            return metricsCache;
+            return new MetricsCache(seq, null,null,null, device.getId_(), device.getTypeId(), 0, 0, device.getOrgSeqId(), 0,0,0);
         }
         return null;
+
+//        String seq_metrics = key.toString();
+//        String seq = seq_metrics;
+//        String indexCode = null;
+//
+//        if (seq_metrics.contains("-")) {
+//            int _i = seq_metrics.lastIndexOf("-");
+//            seq = seq_metrics.substring(0, _i);
+//            indexCode = seq_metrics.substring(_i + 1);
+//        }
+//
+//        DeviceCache device = deviceCacher.getDevice(seq);
+//
+//        IndexCache  index = indexCode==null?null:indexCacher.getIndex(indexCode);
+//
+//        if (device != null) {
+//            MetricsCache metricsCache = new MetricsCache(seq, null, null, null, device.getId_(), device.getIndexId(), 0, 0, device.getOrgSeqId(), 0, 0, 0);
+//            if (index != null) {
+//                metricsCache.setTy(Integer.valueOf(index.getId().toString()));
+//            }
+//            return metricsCache;
+//        }
+//        return null;
     }
 
 }
