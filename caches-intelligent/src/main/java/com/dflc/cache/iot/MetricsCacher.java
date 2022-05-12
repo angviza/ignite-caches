@@ -6,6 +6,7 @@ import com.dflc.cache.iot.entity.MetricsCache;
 import org.legomd.cache.ignite.IgniteCacheBind;
 
 import java.sql.Timestamp;
+import java.time.Instant;
 import java.util.concurrent.ConcurrentHashMap;
 
 public class MetricsCacher extends IgniteCacheBind<MetricsCache> {
@@ -42,6 +43,7 @@ public class MetricsCacher extends IgniteCacheBind<MetricsCache> {
     public MetricsCache saveLocal(MetricsCache value) {
         return metricsLocalCache.put(value.getSeq(), value);
     }
+
     public MetricsCache saveMetrics(MetricsCache value) {
         saveLocal(value);
         set(value);
@@ -58,7 +60,7 @@ public class MetricsCacher extends IgniteCacheBind<MetricsCache> {
         String seq = key.toString();
         DeviceCache device = deviceCacher.getDevice(seq);
         if (device != null) {
-            return new MetricsCache(seq, null,null,null, device.getId_(), device.getTypeId(), 0, 0, device.getOrgSeqId(), 0,0,0);
+            return new MetricsCache(seq, Instant.now(), null, null, device.getId_(), device.getTypeId(), 0d, Double.valueOf(0), device.getOrgSeqId(), 0, 0, 0, null);
         }
         return null;
 

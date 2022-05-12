@@ -1,5 +1,6 @@
 package com.dflc.cache.iot.entity;
 
+import io.vertx.core.json.JsonObject;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -23,9 +24,9 @@ public class MetricsCache extends Cachedable {
     // device type
     private int ty;
     // last increase value
-    private double v;
+    private Double v;
     // total value
-    private double tol;
+    private Double tol;
     // org id
     private int o;
     // status
@@ -36,13 +37,14 @@ public class MetricsCache extends Cachedable {
 
     //当前预警次数
     private int wc;
+    private Object metrics;
 
     @Override
     public String cacheKey() {
         return seq;
     }
 
-    public MetricsCache update(Instant t, double v, double tol) {
+    public MetricsCache update(Instant t, Double v, Double tol) {
         this.t = t;
         this.v = v;
         this.tol = tol;

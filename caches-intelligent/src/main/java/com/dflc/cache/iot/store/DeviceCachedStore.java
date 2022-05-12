@@ -19,7 +19,7 @@ public class DeviceCachedStore extends CachedStoreJdbcAdapter<String, DeviceCach
         TABLE_NAME = "iot_monitor_base";
         KEY = "seq";
         TYPE_KEY = "varchar";
-        COLUMNS = new String[]{"seq", "id", "name", "code", "id_", "org_id", "org_seq_id", "state", "index_id"};
+        COLUMNS = new String[]{"seq", "id", "name", "code", "id_", "org_id", "org_seq_id", "state", "type_id"};
         SQL_DEL = "UPDATE %s SET status = -1 ";
     }
 

@@ -2,7 +2,9 @@ package com.dflc.cache.iot.store;
 
 
 import com.dflc.cache.iot.entity.MetricsCache;
+import io.vertx.core.json.JsonObject;
 import org.legomd.cache.ignite.core.CachedStoreJdbcAdapter;
+import org.postgresql.util.PGobject;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -20,7 +22,7 @@ public class MetricsCachedStore extends CachedStoreJdbcAdapter<String, MetricsCa
         TABLE_NAME = "iot_monitor_metrics";
         KEY = "seq";
         TYPE_KEY = "varchar";
-        COLUMNS = new String[]{"seq", "t", "d", "ty", "v", "tol", "o", "status", "up", "down","wv","wc"};
+        COLUMNS = new String[]{"seq", "t", "d", "ty", "v", "tol", "o", "status", "up", "down", "wv", "wc", "metrics"};
         SQL_DEL = "UPDATE %s SET status = -1 ";
     }
 
@@ -33,14 +35,21 @@ public class MetricsCachedStore extends CachedStoreJdbcAdapter<String, MetricsCa
         st.setInt(i++, p.getD());
         st.setInt(i++, p.getTy());
         st.setDouble(i++, p.getV());
+
+//        PGobject jsonObject = new PGobject();
+//        jsonObject.setType("jsonb");
+//        jsonObject.setValue(p.getTol().toString());
+
         st.setDouble(i++, p.getTol());
         st.setInt(i++, p.getO());
         st.setInt(i++, p.getStatus());
 
         st.setTimestamp(i++, p.getUp() == null ? null : Timestamp.from(p.getUp()));
         st.setTimestamp(i++, p.getDown() == null ? null : Timestamp.from(p.getDown()));
-        st.setDouble(i++,p.getWv());
-        st.setInt(i++,p.getWc());
+        st.setDouble(i++, p.getWv());
+        st.setInt(i++, p.getWc());
+        var m = p.getMetrics();
+        st.setObject(i++, m == null ? null : m.toString());
     }
 
     @Override
@@ -64,6 +73,7 @@ public class MetricsCachedStore extends CachedStoreJdbcAdapter<String, MetricsCa
 
         mc.setWv(rs.getDouble(i++));
         mc.setWc(rs.getInt(i++));
+        mc.setMetrics(rs.getObject(i++));
         return new CacheEntity<String, MetricsCache>(mc.getSeq(), mc);
     }
 }
