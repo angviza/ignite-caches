@@ -22,7 +22,7 @@ public class MetricsCachedStore extends CachedStoreJdbcAdapter<String, MetricsCa
         TABLE_NAME = "iot_monitor_metrics";
         KEY = "seq";
         TYPE_KEY = "varchar";
-        COLUMNS = new String[]{"seq", "t", "d", "ty", "v", "tol", "o", "status", "up", "down", "wv", "wc", "metrics"};
+        COLUMNS = new String[]{"seq", "t", "d", "ty", "o", "status", "up", "down", "m"};
         SQL_DEL = "UPDATE %s SET status = -1 ";
     }
 
@@ -30,26 +30,19 @@ public class MetricsCachedStore extends CachedStoreJdbcAdapter<String, MetricsCa
     protected void stmt(PreparedStatement st, MetricsCache p) throws SQLException {
         int i = 1;
         st.setString(i++, p.getSeq());
-//        st.setTimestamp(i++, Timestamp.valueOf(LocalDateTime.ofInstant(p.getT(), ZoneId.of("Asia/Shanghai"))));
         st.setTimestamp(i++, p.getT() == null ? null : Timestamp.from(p.getT()));
         st.setInt(i++, p.getD());
         st.setInt(i++, p.getTy());
-        st.setDouble(i++, p.getV());
-
-//        PGobject jsonObject = new PGobject();
-//        jsonObject.setType("jsonb");
-//        jsonObject.setValue(p.getTol().toString());
-
-        st.setDouble(i++, p.getTol());
         st.setInt(i++, p.getO());
         st.setInt(i++, p.getStatus());
 
         st.setTimestamp(i++, p.getUp() == null ? null : Timestamp.from(p.getUp()));
         st.setTimestamp(i++, p.getDown() == null ? null : Timestamp.from(p.getDown()));
-        st.setDouble(i++, p.getWv());
-        st.setInt(i++, p.getWc());
-        var m = p.getMetrics();
-        st.setObject(i++, m == null ? null : m.toString());
+        PGobject jo = new PGobject();
+        jo.setType("jsonb");
+        var m = p.getM();
+        jo.setValue(m == null ? "{}" : m.toString());
+        st.setObject(i++, jo);
     }
 
     @Override
@@ -60,8 +53,6 @@ public class MetricsCachedStore extends CachedStoreJdbcAdapter<String, MetricsCa
         mc.setT(rs.getTimestamp(i++).toInstant());
         mc.setD(rs.getInt(i++));
         mc.setTy(rs.getInt(i++));
-        mc.setV(rs.getDouble(i++));
-        mc.setTol(rs.getDouble(i++));
         mc.setO(rs.getInt(i++));
         mc.setStatus(rs.getInt(i++));
         var up = rs.getTimestamp(i++);
@@ -71,10 +62,9 @@ public class MetricsCachedStore extends CachedStoreJdbcAdapter<String, MetricsCa
         if (down != null)
             mc.setDown(down.toInstant());
 
-        mc.setWv(rs.getDouble(i++));
-        mc.setWc(rs.getInt(i++));
-        mc.setMetrics(rs.getObject(i++));
-        return new CacheEntity<String, MetricsCache>(mc.getSeq(), mc);
+        String m = rs.getString(i++);
+        mc.setM(m == null ? new JsonObject() : new JsonObject(m));
+        return new CacheEntity<>(mc.getSeq(), mc);
     }
 }
 

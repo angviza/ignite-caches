@@ -3,6 +3,7 @@ package com.dflc.cache.iot;
 import com.dflc.cache.iot.entity.DeviceCache;
 import com.dflc.cache.iot.entity.IndexCache;
 import com.dflc.cache.iot.entity.MetricsCache;
+import io.vertx.core.json.JsonObject;
 import org.legomd.cache.ignite.IgniteCacheBind;
 
 import java.sql.Timestamp;
@@ -60,7 +61,8 @@ public class MetricsCacher extends IgniteCacheBind<MetricsCache> {
         String seq = key.toString();
         DeviceCache device = deviceCacher.getDevice(seq);
         if (device != null) {
-            return new MetricsCache(seq, Instant.now(), null, null, device.getId_(), device.getTypeId(), 0d, Double.valueOf(0), device.getOrgSeqId(), 0, 0, 0, null);
+            return new MetricsCache(seq, Instant.now(), null, null, device.getId_(), device.getTypeId(),  device.getOrgSeqId(), 0, new JsonObject());
+//            return new MetricsCache(seq, Instant.now(), null, null, device.getId_(), device.getTypeId(), 0d, Double.valueOf(0), device.getOrgSeqId(), 0, 0, 0, null);
         }
         return null;
 
