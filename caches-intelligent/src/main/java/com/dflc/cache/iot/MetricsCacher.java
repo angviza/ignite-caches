@@ -14,11 +14,10 @@ public class MetricsCacher extends IgniteCacheBind<MetricsCache> {
 
     private static MetricsCacher ins;
     DeviceCacher deviceCacher;
-    //IndexCacher indexCacher;
 
     private final ConcurrentHashMap<String, MetricsCache> metricsLocalCache = new ConcurrentHashMap<>();
 
-    public MetricsCache getCache(String seq) {
+    public MetricsCache get(String seq) {
         MetricsCache mc = metricsLocalCache.get(seq);
         if (mc == null) {
             mc = getOrFrom(seq);
@@ -27,25 +26,22 @@ public class MetricsCacher extends IgniteCacheBind<MetricsCache> {
         }
         return mc;
     }
-
-    public static MetricsCacher i() {
+    public static MetricsCache getCache(String seq) {
+        return get().get(seq);
+    }
+    public static MetricsCacher get() {
         if (ins == null) {
             ins = new MetricsCacher();
         }
         return ins;
     }
 
-//    @Override
-//    public <E extends Cacheable> boolean set(E value) {
-//        metricsLocalCache.put(value.cacheKey().toString(), (MetricsCache) value);
-//        return super.set(value);
-//    }
 
     public MetricsCache saveLocal(MetricsCache value) {
         return metricsLocalCache.put(value.getSeq(), value);
     }
 
-    public MetricsCache saveMetrics(MetricsCache value) {
+    public MetricsCache save(MetricsCache value) {
         saveLocal(value);
         set(value);
         return value;
@@ -53,7 +49,7 @@ public class MetricsCacher extends IgniteCacheBind<MetricsCache> {
 
     private MetricsCacher() {
         setType(MetricsCache.class);
-        deviceCacher = DeviceCacher.getDeviceCache();
+        deviceCacher = DeviceCacher.get();
     }
 
     @Override
@@ -62,32 +58,9 @@ public class MetricsCacher extends IgniteCacheBind<MetricsCache> {
         DeviceCache device = deviceCacher.getDevice(seq);
         if (device != null) {
             return new MetricsCache(seq, Instant.now(), null, null, device.getId_(), device.getTypeId(),  device.getOrgSeqId(), 0, new JsonObject());
-//            return new MetricsCache(seq, Instant.now(), null, null, device.getId_(), device.getTypeId(), 0d, Double.valueOf(0), device.getOrgSeqId(), 0, 0, 0, null);
         }
         return null;
 
-//        String seq_metrics = key.toString();
-//        String seq = seq_metrics;
-//        String indexCode = null;
-//
-//        if (seq_metrics.contains("-")) {
-//            int _i = seq_metrics.lastIndexOf("-");
-//            seq = seq_metrics.substring(0, _i);
-//            indexCode = seq_metrics.substring(_i + 1);
-//        }
-//
-//        DeviceCache device = deviceCacher.getDevice(seq);
-//
-//        IndexCache  index = indexCode==null?null:indexCacher.getIndex(indexCode);
-//
-//        if (device != null) {
-//            MetricsCache metricsCache = new MetricsCache(seq, null, null, null, device.getId_(), device.getIndexId(), 0, 0, device.getOrgSeqId(), 0, 0, 0);
-//            if (index != null) {
-//                metricsCache.setTy(Integer.valueOf(index.getId().toString()));
-//            }
-//            return metricsCache;
-//        }
-//        return null;
     }
 
 }

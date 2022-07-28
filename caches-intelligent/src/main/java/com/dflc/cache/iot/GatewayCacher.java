@@ -22,7 +22,7 @@ public class GatewayCacher extends IgniteCacheBind<GatewayCache> {
         return mc;
     }
 
-    public static GatewayCacher i() {
+    public static GatewayCacher get() {
         if (ins == null) {
             ins = new GatewayCacher();
         }

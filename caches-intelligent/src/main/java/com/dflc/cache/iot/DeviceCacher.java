@@ -16,7 +16,7 @@ public class DeviceCacher extends IgniteCacheBind<DeviceCache> {
         setType(DeviceCache.class);
     }
 
-    public static DeviceCacher getDeviceCache() {
+    public static DeviceCacher get() {
         if (dm == null) {
             dm = new DeviceCacher();
         }

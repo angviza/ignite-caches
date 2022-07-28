@@ -17,7 +17,7 @@ public class IndexCacher extends IgniteCacheBind<IndexCache> {
         setType(IndexCache.class);
     }
 
-    public static IndexCacher getIndexCache() {
+    public static IndexCacher get() {
         if (dm == null) {
             dm = new IndexCacher();
         }

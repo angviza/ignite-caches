@@ -25,20 +25,11 @@ public class MetricsCache extends Cachedable {
     private int d;
     // device type
     private int ty;
-    //    // last increase value
-//    private Double v;
-//    // total value
-//    private Double tol;
     // org id
     private int o;
     // status
     private int status;
 
-    //    //当前预警值
-//    private double wv;
-//
-//    //当前预警次数
-//    private int wc;
     private JsonObject m;
 
     @Override
@@ -46,12 +37,6 @@ public class MetricsCache extends Cachedable {
         return seq;
     }
 
-    //    public MetricsCache update(Instant t, Double v, Double tol) {
-//        this.t = t;
-//        this.v = v;
-//        this.tol = tol;
-//        return this;
-//    }
     public MetricsCache set(Object k, Object v) {
         m.put(String.valueOf(k), v);
         return this;
